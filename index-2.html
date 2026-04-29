@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marcus — Frontend Developer & Founder</title>
+  <meta name="description" content="Marcus is a Frontend Developer and Founder building Siro, a Nigerian tax compliance SaaS. He crafts clean digital products and ships fast." />
+  <meta property="og:title" content="Marcus — Frontend Developer & Founder" />
+  <meta property="og:description" content="Building Siro. Writing clean code. Shipping real products." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg-2: #111111;
+      --bg-3: #1a1a1a;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.15);
+      --text: #f0f0f0;
+      --text-2: #888;
+      --text-3: #555;
+      --accent: #e8ff47;
+      --accent-dim: rgba(232,255,71,0.12);
+      --accent-glow: rgba(232,255,71,0.25);
+      --radius: 2px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      transform: translate(-50%, -50%);
+    }
+    .cursor-ring {
+      width: 32px; height: 32px;
+      border: 1px solid rgba(232,255,71,0.4);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.2s;
+      transform: translate(-50%, -50%);
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 24px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, transparent 100%);
+      backdrop-filter: blur(4px);
+    }
+    .nav-logo {
+      font-family: 'Geist Mono', monospace;
+      font-size: 13px;
+      color: var(--text-2);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: 'Geist Mono', monospace;
+      font-size: 12px;
+      color: var(--text-2);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 120px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid-line {
+      position: absolute;
+      background: var(--border);
+      pointer-events: none;
+    }
+    .hero-grid-line.v { width: 1px; top: 0; bottom: 0; }
+    .hero-grid-line.h { height: 1px; left: 0; right: 0; }
+
+    .hero-status {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-2);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s ease forwards;
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero-name {
+      font-size: clamp(56px, 10vw, 120px);
+      font-weight: 800;
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s ease forwards;
+    }
+    .hero-name .accent { color: var(--accent); }
+
+    .hero-tagline {
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 400;
+      color: var(--text-2);
+      max-width: 560px;
+      margin-bottom: 56px;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.5s ease forwards;
+    }
+
+    .hero-ctas {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.65s ease forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: var(--radius);
+      transition: all 0.2s;
+      cursor: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0a0a;
+      font-weight: 600;
+    }
+    .btn-primary:hover {
+      background: #fff;
+      box-shadow: 0 0 32px var(--accent-glow);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-2);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: var(--border-hover);
+      color: var(--text);
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 36px; right: 48px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--text-3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      opacity: 0;
+      animation: fadeIn 1s 1.2s ease forwards;
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 100px 48px; }
+    .section-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 0;
+    }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--bg); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      margin-top: 60px;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--text-2);
+      font-size: 17px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .about-text p strong { color: var(--text); font-weight: 600; }
+    .about-text p .hl { color: var(--accent); }
+
+    .about-facts { display: flex; flex-direction: column; gap: 0; }
+    .fact-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .fact-row:first-child { border-top: 1px solid var(--border); }
+    .fact-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-3);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .fact-value {
+      font-size: 14px;
+      color: var(--text-2);
+      text-align: right;
+    }
+    .fact-value.accent { color: var(--accent); }
+
+    /* ─── STATS ─── */
+    .stats-bar {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 0 24px;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-desc {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ─── PROJECTS ─── */
+    #projects { background: var(--bg); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 60px;
+    }
+    .project-card {
+      background: var(--bg-2);
+      padding: 40px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, background 0.3s;
+      cursor: none;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent-dim) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .project-card:hover { border-color: var(--border-hover); }
+    .project-card:hover::before { opacity: 1; }
+    .project-card.featured {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .project-tag {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .project-tag::before {
+      content: '';
+      width: 16px; height: 1px;
+      background: var(--accent);
+    }
+
+    .project-name {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .project-desc {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .project-stack {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 28px;
+    }
+    .stack-chip {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      padding: 4px 10px;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      color: var(--text-3);
+      letter-spacing: 0.06em;
+      border-radius: 2px;
+    }
+    .project-link {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-2);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--accent); }
+    .project-link svg { transition: transform 0.2s; }
+    .project-link:hover svg { transform: translate(2px, -2px); }
+
+    .featured-visual {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      height: 240px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .featured-visual-inner {
+      font-family: 'Geist Mono', monospace;
+      font-size: 64px;
+      font-weight: 300;
+      color: var(--border-hover);
+      letter-spacing: -0.04em;
+      position: relative;
+      z-index: 1;
+    }
+    .featured-visual::before {
+      content: '';
+      position: absolute;
+      width: 200px; height: 200px;
+      background: var(--accent-glow);
+      border-radius: 50%;
+      filter: blur(60px);
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-16px); }
+    }
+
+    /* ─── SKILLS ─── */
+    #skills { background: var(--bg-2); }
+    .skills-wrapper { margin-top: 60px; }
+    .skill-category { margin-bottom: 48px; }
+    .skill-category-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--text-3);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .skill-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .skill-chip {
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-family: 'Geist Mono', monospace;
+      font-size: 12px;
+      color: var(--text-2);
+      letter-spacing: 0.04em;
+      border-radius: 2px;
+      transition: all 0.2s;
+      cursor: none;
+    }
+    .skill-chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* ─── TIMELINE ─── */
+    #timeline { background: var(--bg); }
+    .timeline { margin-top: 60px; position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .timeline-item {
+      padding: 0 0 48px 40px;
+      position: relative;
+      opacity: 0;
+      transform: translateX(-12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -4px; top: 6px;
+      width: 8px; height: 8px;
+      background: var(--bg);
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+    }
+    .timeline-year {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      margin-bottom: 8px;
+    }
+    .timeline-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .timeline-sub {
+      font-size: 13px;
+      color: var(--text-3);
+      margin-bottom: 10px;
+    }
+    .timeline-body {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      background: var(--bg-2);
+      text-align: center;
+    }
+    .contact-inner { max-width: 640px; margin: 0 auto; }
+    .contact-inner .section-label { justify-content: center; display: flex; }
+    .contact-email {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+      display: block;
+      margin: 32px 0 20px;
+      transition: color 0.2s;
+    }
+    .contact-email:hover { color: var(--accent); }
+    .contact-sub {
+      font-size: 14px;
+      color: var(--text-3);
+      margin-bottom: 48px;
+    }
+    .social-links {
+      display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
+    }
+    .social-link {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-3);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      cursor: none;
+    }
+    .social-link:hover { color: var(--accent); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 24px 48px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    footer span {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-3);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── MARQUEE ─── */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+      background: var(--bg-2);
+    }
+    .marquee-track {
+      display: flex; gap: 48px;
+      animation: marquee 18s linear infinite;
+      width: max-content;
+    }
+    .marquee-item {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      display: flex; align-items: center; gap: 48px;
+    }
+    .marquee-item::after {
+      content: '·';
+      color: var(--accent);
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      #hero { padding: 100px 24px 60px; }
+      section { padding: 72px 24px; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .stats-bar { grid-template-columns: 1fr 1fr; gap: 32px; padding: 32px 24px; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+      .stat-item:nth-child(2), .stat-item:last-child { border-bottom: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+      .featured-visual { height: 160px; }
+      footer { flex-direction: column; gap: 8px; padding: 24px; text-align: center; }
+      body { cursor: auto; }
+      .cursor, .cursor-ring { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#hero" class="nav-logo">Marcus<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#timeline">Journey</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <!-- Grid lines for atmosphere -->
+    <div class="hero-grid-line v" style="left: 33.3%"></div>
+    <div class="hero-grid-line v" style="left: 66.6%"></div>
+    <div class="hero-grid-line h" style="top: 40%"></div>
+
+    <div class="hero-status">
+      <div class="status-dot"></div>
+      Available for select projects
+    </div>
+
+    <h1 class="hero-name">
+      Frontend<br />
+      Dev<span class="accent">.</span><br />
+      Founder<span class="accent">.</span>
+    </h1>
+
+    <p class="hero-tagline">
+      I build clean, fast digital products that solve real problems — and ship them.
+      Currently building <strong>Siro</strong>, a tax compliance SaaS for Nigerian SMEs.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#projects" class="btn btn-primary">View Work</a>
+      <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+    </div>
+
+    <div class="hero-scroll-hint">Scroll to explore</div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="marquee">
+      <div class="marquee-item">Next.js</div>
+      <div class="marquee-item">React</div>
+      <div class="marquee-item">Tailwind CSS</div>
+      <div class="marquee-item">Siro</div>
+      <div class="marquee-item">GrayPatch Solicitors</div>
+      <div class="marquee-item">Spring Boot</div>
+      <div class="marquee-item">Django REST</div>
+      <div class="marquee-item">Aptos</div>
+      <div class="marquee-item">Nigerian Tax Act 2025</div>
+      <div class="marquee-item">Miva Open University</div>
+      <div class="marquee-item">Vercel</div>
+      <div class="marquee-item">Heroicons</div>
+      <!-- duplicated for seamless loop -->
+      <div class="marquee-item">Next.js</div>
+      <div class="marquee-item">React</div>
+      <div class="marquee-item">Tailwind CSS</div>
+      <div class="marquee-item">Siro</div>
+      <div class="marquee-item">GrayPatch Solicitors</div>
+      <div class="marquee-item">Spring Boot</div>
+      <div class="marquee-item">Django REST</div>
+      <div class="marquee-item">Aptos</div>
+      <div class="marquee-item">Nigerian Tax Act 2025</div>
+      <div class="marquee-item">Miva Open University</div>
+      <div class="marquee-item">Vercel</div>
+      <div class="marquee-item">Heroicons</div>
+    </div>
+  </div>
+
+  <!-- About -->
+  <section id="about">
+    <p class="section-label">About</p>
+    <h2 class="section-title">Builder by nature.<br />Founder by choice.</h2>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>
+          I'm <strong>Marcus</strong> — a frontend developer and founder with a sharp eye for product and a bias for shipping. I care about code that's clean, UIs that are fast, and products that actually solve real problems.
+        </p>
+        <p>
+          My flagship project is <span class="hl">Siro</span> — a Nigerian tax compliance SaaS built to take the pain of VAT tracking, bank transaction syncing, and FIRS-compliant reporting off the plates of SMEs. I'm doing everything: product, frontend, go-to-market.
+        </p>
+        <p>
+          Beyond Siro, I take on <strong>technical projects</strong> across fintech, legal tech, and Web3 — diagnosing hard bugs, building full features, and shipping to production. I'm also a Business Management student at <strong>Miva Open University</strong>, which sharpens how I think about product, market, and growth.
+        </p>
+      </div>
+      <div class="about-facts">
+        <div class="fact-row">
+          <span class="fact-label">Location</span>
+          <span class="fact-value">Nigeria · Canada</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Focus</span>
+          <span class="fact-value accent">Siro (usesiro.com)</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Stack</span>
+          <span class="fact-value">Next.js · React · Tailwind</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Education</span>
+          <span class="fact-value">Business Mgmt, Miva (300L)</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Interests</span>
+          <span class="fact-value">Fintech · Theology · Investing</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Status</span>
+          <span class="fact-value accent">Open to select work</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats bar -->
+  <div class="stats-bar reveal">
+    <div class="stat-item">
+      <div class="stat-num" data-target="6">0</div>
+      <div class="stat-desc">Projects Shipped</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="3">0</div>
+      <div class="stat-desc">Industries Covered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="2025">0</div>
+      <div class="stat-desc">Tax Act Integrated</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="100">0</div>
+      <div class="stat-desc">% Delivery Rate</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Projects -->
+  <section id="projects">
+    <p class="section-label">Projects</p>
+    <h2 class="section-title">Things I've built<br />and shipped.</h2>
+
+    <div class="projects-grid">
+
+      <!-- Featured: Siro -->
+      <div class="project-card featured reveal">
+        <div class="project-info">
+          <div class="project-tag">Flagship · Founder</div>
+          <h3 class="project-name">Siro</h3>
+          <p class="project-desc">
+            A Nigerian tax compliance SaaS helping SMEs automate VAT tracking, sync bank transactions, and generate FIRS-compliant reports. Built from the ground up — product, frontend, go-to-market strategy, and investor pitch deck.
+          </p>
+          <div class="project-stack">
+            <span class="stack-chip">Next.js</span>
+            <span class="stack-chip">Tailwind CSS</span>
+            <span class="stack-chip">Heroicons</span>
+            <span class="stack-chip">Nigeria Tax Act 2025</span>
+            <span class="stack-chip">Vercel</span>
+          </div>
+          <a href="https://usesiro.vercel.app" target="_blank" class="project-link">
+            Visit Siro
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </a>
+        </div>
+        <div class="featured-visual">
+          <div class="featured-visual-inner">₦</div>
+        </div>
+      </div>
+
+      <!-- Workspace Africa -->
+      <div class="project-card reveal">
+        <div class="project-tag">PropTech · Platform</div>
+        <h3 class="project-name">Workspace Africa</h3>
+        <p class="project-desc">
+          Gateway platform for a coworking network across Ibadan — "The Operating System for Digital Nomads." Three access portals: Nomad, Space Owner, and Corporate. Live node listings, subscription plans (₦4,500/day to ₦90k/mo), and real-time network status.
+        </p>
+        <div class="project-stack">
+          <span class="stack-chip">Next.js</span>
+          <span class="stack-chip">Tailwind CSS</span>
+          <span class="stack-chip">Multi-portal</span>
+          <span class="stack-chip">Vercel</span>
+        </div>
+        <a href="https://workspace-africa-gateway.vercel.app/" target="_blank" class="project-link">
+          View Live
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- GrayPatch -->
+      <div class="project-card reveal">
+        <div class="project-tag">Legal Tech</div>
+        <h3 class="project-name">GrayPatch Solicitors</h3>
+        <p class="project-desc">
+          Full-stack legal services web app for a pan-African compliance advisory firm. Diagnosed and fixed JWT role claim issues, UUID type mismatches, and endpoint path errors. Built the brand identity including SVG logo.
+        </p>
+        <div class="project-stack">
+          <span class="stack-chip">Next.js</span>
+          <span class="stack-chip">Spring Boot</span>
+          <span class="stack-chip">JWT Auth</span>
+          <span class="stack-chip">REST API</span>
+        </div>
+        <a href="https://gray-patch-web.vercel.app/" target="_blank" class="project-link">
+          View Live
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- NextGen Expo -->
+      <div class="project-card reveal">
+        <div class="project-tag">Events · Education</div>
+        <h3 class="project-name">The NextGen Expo</h3>
+        <p class="project-desc">
+          Conference platform for a student innovation expo — "Forging Nigeria's Future." Features countdowns, partner showcases (including Interswitch), ticketing, and sponsor/vendor/guest portals. Built for Nigeria's brightest students.
+        </p>
+        <div class="project-stack">
+          <span class="stack-chip">Next.js</span>
+          <span class="stack-chip">Tailwind CSS</span>
+          <span class="stack-chip">Ticketing</span>
+          <span class="stack-chip">Vercel</span>
+        </div>
+        <a href="https://nextgen-expo.vercel.app/" target="_blank" class="project-link">
+          View Live
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Mercy & Ayodeji -->
+      <div class="project-card reveal">
+        <div class="project-tag">Creative · Wedding Tech</div>
+        <h3 class="project-name">The MV Lovewave</h3>
+        <p class="project-desc">
+          Custom wedding website for Mercy & Ayodeji (#TheMVlovewave'26). Includes their love story, countdown timer, RSVP, event schedule, and wedding squad. Live on a custom .com.ng domain — a full personal milestone delivered.
+        </p>
+        <div class="project-stack">
+          <span class="stack-chip">HTML/CSS/JS</span>
+          <span class="stack-chip">Custom Domain</span>
+          <span class="stack-chip">RSVP</span>
+          <span class="stack-chip">Countdown</span>
+        </div>
+        <a href="https://www.themercyayodejistory.com.ng/" target="_blank" class="project-link">
+          View Live
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- ShelbyDash -->
+      <div class="project-card reveal">
+        <div class="project-tag">Web3 · Hackathon</div>
+        <h3 class="project-name">ShelbyDash</h3>
+        <p class="project-desc">
+          Verifiable decentralized storage dashboard for the Aptos Shelby Protocol hackathon. Full technical documentation covering React/Node.js architecture, Shelby SDK integration, and a complete API reference.
+        </p>
+        <div class="project-stack">
+          <span class="stack-chip">React</span>
+          <span class="stack-chip">Node.js</span>
+          <span class="stack-chip">Aptos</span>
+          <span class="stack-chip">Shelby SDK</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Skills -->
+  <section id="skills">
+    <p class="section-label">Skills</p>
+    <h2 class="section-title">What I work with.</h2>
+
+    <div class="skills-wrapper reveal">
+
+      <div class="skill-category">
+        <div class="skill-category-label">Frontend</div>
+        <div class="skill-chips">
+          <span class="skill-chip">React</span>
+          <span class="skill-chip">Next.js</span>
+          <span class="skill-chip">Tailwind CSS</span>
+          <span class="skill-chip">HTML5</span>
+          <span class="skill-chip">CSS3</span>
+          <span class="skill-chip">JavaScript</span>
+          <span class="skill-chip">Heroicons</span>
+          <span class="skill-chip">Responsive Design</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-category-label">Backend & API</div>
+        <div class="skill-chips">
+          <span class="skill-chip">Django REST Framework</span>
+          <span class="skill-chip">Spring Boot</span>
+          <span class="skill-chip">JWT Auth</span>
+          <span class="skill-chip">REST APIs</span>
+          <span class="skill-chip">API Integration</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-category-label">Tools & Deployment</div>
+        <div class="skill-chips">
+          <span class="skill-chip">Vercel</span>
+          <span class="skill-chip">Netlify</span>
+          <span class="skill-chip">Git & GitHub</span>
+          <span class="skill-chip">Figma</span>
+          <span class="skill-chip">SVG Design</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-category-label">Product & Business</div>
+        <div class="skill-chips">
+          <span class="skill-chip">Investor Pitch Decks</span>
+          <span class="skill-chip">Go-to-Market Strategy</span>
+          <span class="skill-chip">SEO</span>
+          <span class="skill-chip">Product Hunt Launch</span>
+          <span class="skill-chip">Nigerian Fintech</span>
+          <span class="skill-chip">Tax Compliance (FIRS/VAT)</span>
+          <span class="skill-chip">Business Management</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Timeline / Journey -->
+  <section id="timeline">
+    <p class="section-label">Journey</p>
+    <h2 class="section-title">How I got here.</h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2026 · Now</div>
+        <h3 class="timeline-title">Founder, Siro</h3>
+        <div class="timeline-sub">usesiro.com</div>
+        <p class="timeline-body">
+          Building Siro full-time — Nigerian tax compliance SaaS for SMEs. Shipped the full frontend, built the investor pitch deck, handled go-to-market strategy, and integrated the Nigeria Tax Act 2025 framework. Actively growing the product.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2025–2026</div>
+        <h3 class="timeline-title">Freelance Frontend Developer</h3>
+        <div class="timeline-sub">Various clients · Nigeria & Canada</div>
+        <p class="timeline-body">
+          Delivered production-grade web apps across legal tech (GrayPatch Solicitors), SaaS dashboards, event management systems, and a Web3 hackathon project (ShelbyDash on Aptos). Strong record of debugging complex API and integration issues.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2023 · Ongoing</div>
+        <h3 class="timeline-title">Business Management Student</h3>
+        <div class="timeline-sub">Miva Open University · 300 Level</div>
+        <p class="timeline-body">
+          Studying Business Management with a focus on applying frameworks to real-world product and market decisions. Served as course representative. Recipient of Cowrywise/Miva scholarship consideration.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="contact-inner reveal">
+      <p class="section-label">Contact</p>
+      <h2 class="section-title">Let's build something.</h2>
+      <p class="contact-sub">
+        Open to freelance projects, collaborations, and conversations about products that matter.
+      </p>
+      <a href="mailto:hello@marcus.dev" class="contact-email">hello@marcus.dev</a>
+
+      <div class="social-links">
+        <a href="https://usesiro.com" target="_blank" class="social-link">Siro</a>
+        <a href="https://github.com" target="_blank" class="social-link">GitHub</a>
+        <a href="https://linkedin.com" target="_blank" class="social-link">LinkedIn</a>
+        <a href="https://twitter.com" target="_blank" class="social-link">Twitter / X</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span>© 2026 Marcus. All rights reserved.</span>
+    <span>Built with intention. Deployed on Vercel.</span>
+  </footer>
+
+  <script>
+    // ─── Cursor ───
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      cursorRing.style.left = rx + 'px';
+      cursorRing.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button, .skill-chip, .project-card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(2.5)';
+        cursorRing.style.transform = 'translate(-50%, -50%) scale(1.4)';
+        cursorRing.style.borderColor = 'rgba(232,255,71,0.6)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorRing.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorRing.style.borderColor = 'rgba(232,255,71,0.4)';
+      });
+    });
+
+    // ─── Scroll reveal ───
+    const revealEls = document.querySelectorAll('.reveal, .timeline-item');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // ─── Counter animation ───
+    const counters = document.querySelectorAll('.stat-num');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.getAttribute('data-target'));
+          const duration = 1400;
+          const start = performance.now();
+          const update = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.floor(eased * target);
+            if (progress < 1) requestAnimationFrame(update);
+            else el.textContent = target;
+          };
+          requestAnimationFrame(update);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(el => counterObserver.observe(el));
+  </script>
+
+</body>
+</html>
