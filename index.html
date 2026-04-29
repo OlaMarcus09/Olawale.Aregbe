@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marcus — Frontend Developer & Founder</title>
-  <meta name="description" content="Marcus is a Frontend Developer and Founder building Siro, a Nigerian tax compliance SaaS. He crafts clean digital products and ships fast." />
+  <title>Olawale Marcus — Frontend Developer & Founder</title>
+  <meta name="description" content="Marcus is a Frontend Developer and Founder building Workspace Africa and Siro. He crafts clean digital products and ships fast." />
   <meta property="og:title" content="Marcus — Frontend Developer & Founder" />
-  <meta property="og:description" content="Building Siro. Writing clean code. Shipping real products." />
+  <meta property="og:description" content="Building Workspace Africa. Writing clean code. Shipping real products." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -624,25 +624,46 @@
       #hero { padding: 100px 24px 60px; }
       section { padding: 72px 24px; }
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      
+      /* 2x2 Stats grid for tablets */
       .stats-bar { grid-template-columns: 1fr 1fr; gap: 32px; padding: 32px 24px; }
       .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
-      .stat-item:nth-child(2), .stat-item:last-child { border-bottom: none; }
+      .stat-item:nth-last-child(-n+2) { border-bottom: none; } 
+      
       .projects-grid { grid-template-columns: 1fr; }
-      .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; gap: 24px;}
       .featured-visual { height: 160px; }
       footer { flex-direction: column; gap: 8px; padding: 24px; text-align: center; }
       body { cursor: auto; }
       .cursor, .cursor-ring { display: none; }
+      .hero-scroll-hint { display: none; } /* Hide on mobile so it doesn't overlap */
+    }
+
+    /* Extra small screens (Phones) */
+    @media (max-width: 600px) {
+      .hero-name { font-size: clamp(40px, 12vw, 56px); } /* Scale down massive text */
+      .hero-tagline { font-size: 16px; margin-bottom: 40px; }
+      
+      /* Make buttons full width and stacked */
+      .hero-ctas { flex-direction: column; width: 100%; gap: 12px; }
+      .btn { width: 100%; justify-content: center; }
+      
+      /* Stack stats vertically */
+      .stats-bar { grid-template-columns: 1fr; gap: 24px; padding: 32px 24px; }
+      .stat-item { border-bottom: 1px solid var(--border) !important; padding-bottom: 24px; }
+      .stat-item:last-child { border-bottom: none !important; padding-bottom: 0; }
+      
+      .section-title { font-size: 32px; }
+      .project-name { font-size: 22px; }
+      .about-text p { font-size: 15px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Cursor -->
   <div class="cursor" id="cursor"></div>
   <div class="cursor-ring" id="cursorRing"></div>
 
-  <!-- Nav -->
   <nav>
     <a href="#hero" class="nav-logo">Marcus<span>.</span></a>
     <ul class="nav-links">
@@ -654,9 +675,7 @@
     </ul>
   </nav>
 
-  <!-- Hero -->
   <section id="hero">
-    <!-- Grid lines for atmosphere -->
     <div class="hero-grid-line v" style="left: 33.3%"></div>
     <div class="hero-grid-line v" style="left: 66.6%"></div>
     <div class="hero-grid-line h" style="top: 40%"></div>
@@ -674,7 +693,7 @@
 
     <p class="hero-tagline">
       I build clean, fast digital products that solve real problems — and ship them.
-      Currently building <strong>Siro</strong>, a tax compliance SaaS for Nigerian SMEs.
+      My flagship project is <strong>Workspace Africa</strong>. I'm also building <strong>Siro</strong>, a tax compliance SaaS for Nigerian SMEs.
     </p>
 
     <div class="hero-ctas">
@@ -685,9 +704,9 @@
     <div class="hero-scroll-hint">Scroll to explore</div>
   </section>
 
-  <!-- Marquee -->
   <div class="marquee-wrap">
     <div class="marquee-track" id="marquee">
+      <div class="marquee-item">Workspace Africa</div>
       <div class="marquee-item">Next.js</div>
       <div class="marquee-item">React</div>
       <div class="marquee-item">Tailwind CSS</div>
@@ -696,429 +715,8 @@
       <div class="marquee-item">Spring Boot</div>
       <div class="marquee-item">Django REST</div>
       <div class="marquee-item">Aptos</div>
-      <div class="marquee-item">Nigerian Tax Act 2025</div>
-      <div class="marquee-item">Miva Open University</div>
-      <div class="marquee-item">Vercel</div>
-      <div class="marquee-item">Heroicons</div>
-      <!-- duplicated for seamless loop -->
-      <div class="marquee-item">Next.js</div>
-      <div class="marquee-item">React</div>
-      <div class="marquee-item">Tailwind CSS</div>
-      <div class="marquee-item">Siro</div>
-      <div class="marquee-item">GrayPatch Solicitors</div>
-      <div class="marquee-item">Spring Boot</div>
-      <div class="marquee-item">Django REST</div>
-      <div class="marquee-item">Aptos</div>
-      <div class="marquee-item">Nigerian Tax Act 2025</div>
-      <div class="marquee-item">Miva Open University</div>
-      <div class="marquee-item">Vercel</div>
-      <div class="marquee-item">Heroicons</div>
     </div>
   </div>
-
-  <!-- About -->
-  <section id="about">
-    <p class="section-label">About</p>
-    <h2 class="section-title">Builder by nature.<br />Founder by choice.</h2>
-    <div class="about-grid reveal">
-      <div class="about-text">
-        <p>
-          I'm <strong>Marcus</strong> — a frontend developer and founder with a sharp eye for product and a bias for shipping. I care about code that's clean, UIs that are fast, and products that actually solve real problems.
-        </p>
-        <p>
-          My flagship project is <span class="hl">Siro</span> — a Nigerian tax compliance SaaS built to take the pain of VAT tracking, bank transaction syncing, and FIRS-compliant reporting off the plates of SMEs. I'm doing everything: product, frontend, go-to-market.
-        </p>
-        <p>
-          Beyond Siro, I take on <strong>technical projects</strong> across fintech, legal tech, and Web3 — diagnosing hard bugs, building full features, and shipping to production. I'm also a Business Management student at <strong>Miva Open University</strong>, which sharpens how I think about product, market, and growth.
-        </p>
-      </div>
-      <div class="about-facts">
-        <div class="fact-row">
-          <span class="fact-label">Location</span>
-          <span class="fact-value">Nigeria · Canada</span>
-        </div>
-        <div class="fact-row">
-          <span class="fact-label">Focus</span>
-          <span class="fact-value accent">Siro (usesiro.com)</span>
-        </div>
-        <div class="fact-row">
-          <span class="fact-label">Stack</span>
-          <span class="fact-value">Next.js · React · Tailwind</span>
-        </div>
-        <div class="fact-row">
-          <span class="fact-label">Education</span>
-          <span class="fact-value">Business Mgmt, Miva (300L)</span>
-        </div>
-        <div class="fact-row">
-          <span class="fact-label">Interests</span>
-          <span class="fact-value">Fintech · Theology · Investing</span>
-        </div>
-        <div class="fact-row">
-          <span class="fact-label">Status</span>
-          <span class="fact-value accent">Open to select work</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stats bar -->
-  <div class="stats-bar reveal">
-    <div class="stat-item">
-      <div class="stat-num" data-target="6">0</div>
-      <div class="stat-desc">Projects Shipped</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num" data-target="3">0</div>
-      <div class="stat-desc">Industries Covered</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num" data-target="2025">0</div>
-      <div class="stat-desc">Tax Act Integrated</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num" data-target="100">0</div>
-      <div class="stat-desc">% Delivery Rate</div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- Projects -->
-  <section id="projects">
-    <p class="section-label">Projects</p>
-    <h2 class="section-title">Things I've built<br />and shipped.</h2>
-
-    <div class="projects-grid">
-
-      <!-- Featured: Siro -->
-      <div class="project-card featured reveal">
-        <div class="project-info">
-          <div class="project-tag">Flagship · Founder</div>
-          <h3 class="project-name">Siro</h3>
-          <p class="project-desc">
-            A Nigerian tax compliance SaaS helping SMEs automate VAT tracking, sync bank transactions, and generate FIRS-compliant reports. Built from the ground up — product, frontend, go-to-market strategy, and investor pitch deck.
-          </p>
-          <div class="project-stack">
-            <span class="stack-chip">Next.js</span>
-            <span class="stack-chip">Tailwind CSS</span>
-            <span class="stack-chip">Heroicons</span>
-            <span class="stack-chip">Nigeria Tax Act 2025</span>
-            <span class="stack-chip">Vercel</span>
-          </div>
-          <a href="https://usesiro.vercel.app" target="_blank" class="project-link">
-            Visit Siro
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-          </a>
-        </div>
-        <div class="featured-visual">
-          <div class="featured-visual-inner">₦</div>
-        </div>
-      </div>
-
-      <!-- Workspace Africa -->
-      <div class="project-card reveal">
-        <div class="project-tag">PropTech · Platform</div>
-        <h3 class="project-name">Workspace Africa</h3>
-        <p class="project-desc">
-          Gateway platform for a coworking network across Ibadan — "The Operating System for Digital Nomads." Three access portals: Nomad, Space Owner, and Corporate. Live node listings, subscription plans (₦4,500/day to ₦90k/mo), and real-time network status.
-        </p>
-        <div class="project-stack">
-          <span class="stack-chip">Next.js</span>
-          <span class="stack-chip">Tailwind CSS</span>
-          <span class="stack-chip">Multi-portal</span>
-          <span class="stack-chip">Vercel</span>
-        </div>
-        <a href="https://workspace-africa-gateway.vercel.app/" target="_blank" class="project-link">
-          View Live
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </a>
-      </div>
-
-      <!-- GrayPatch -->
-      <div class="project-card reveal">
-        <div class="project-tag">Legal Tech</div>
-        <h3 class="project-name">GrayPatch Solicitors</h3>
-        <p class="project-desc">
-          Full-stack legal services web app for a pan-African compliance advisory firm. Diagnosed and fixed JWT role claim issues, UUID type mismatches, and endpoint path errors. Built the brand identity including SVG logo.
-        </p>
-        <div class="project-stack">
-          <span class="stack-chip">Next.js</span>
-          <span class="stack-chip">Spring Boot</span>
-          <span class="stack-chip">JWT Auth</span>
-          <span class="stack-chip">REST API</span>
-        </div>
-        <a href="https://gray-patch-web.vercel.app/" target="_blank" class="project-link">
-          View Live
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </a>
-      </div>
-
-      <!-- NextGen Expo -->
-      <div class="project-card reveal">
-        <div class="project-tag">Events · Education</div>
-        <h3 class="project-name">The NextGen Expo</h3>
-        <p class="project-desc">
-          Conference platform for a student innovation expo — "Forging Nigeria's Future." Features countdowns, partner showcases (including Interswitch), ticketing, and sponsor/vendor/guest portals. Built for Nigeria's brightest students.
-        </p>
-        <div class="project-stack">
-          <span class="stack-chip">Next.js</span>
-          <span class="stack-chip">Tailwind CSS</span>
-          <span class="stack-chip">Ticketing</span>
-          <span class="stack-chip">Vercel</span>
-        </div>
-        <a href="https://nextgen-expo.vercel.app/" target="_blank" class="project-link">
-          View Live
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </a>
-      </div>
-
-      <!-- Mercy & Ayodeji -->
-      <div class="project-card reveal">
-        <div class="project-tag">Creative · Wedding Tech</div>
-        <h3 class="project-name">The MV Lovewave</h3>
-        <p class="project-desc">
-          Custom wedding website for Mercy & Ayodeji (#TheMVlovewave'26). Includes their love story, countdown timer, RSVP, event schedule, and wedding squad. Live on a custom .com.ng domain — a full personal milestone delivered.
-        </p>
-        <div class="project-stack">
-          <span class="stack-chip">HTML/CSS/JS</span>
-          <span class="stack-chip">Custom Domain</span>
-          <span class="stack-chip">RSVP</span>
-          <span class="stack-chip">Countdown</span>
-        </div>
-        <a href="https://www.themercyayodejistory.com.ng/" target="_blank" class="project-link">
-          View Live
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </a>
-      </div>
-
-      <!-- ShelbyDash -->
-      <div class="project-card reveal">
-        <div class="project-tag">Web3 · Hackathon</div>
-        <h3 class="project-name">ShelbyDash</h3>
-        <p class="project-desc">
-          Verifiable decentralized storage dashboard for the Aptos Shelby Protocol hackathon. Full technical documentation covering React/Node.js architecture, Shelby SDK integration, and a complete API reference.
-        </p>
-        <div class="project-stack">
-          <span class="stack-chip">React</span>
-          <span class="stack-chip">Node.js</span>
-          <span class="stack-chip">Aptos</span>
-          <span class="stack-chip">Shelby SDK</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- Skills -->
-  <section id="skills">
-    <p class="section-label">Skills</p>
-    <h2 class="section-title">What I work with.</h2>
-
-    <div class="skills-wrapper reveal">
-
-      <div class="skill-category">
-        <div class="skill-category-label">Frontend</div>
-        <div class="skill-chips">
-          <span class="skill-chip">React</span>
-          <span class="skill-chip">Next.js</span>
-          <span class="skill-chip">Tailwind CSS</span>
-          <span class="skill-chip">HTML5</span>
-          <span class="skill-chip">CSS3</span>
-          <span class="skill-chip">JavaScript</span>
-          <span class="skill-chip">Heroicons</span>
-          <span class="skill-chip">Responsive Design</span>
-        </div>
-      </div>
-
-      <div class="skill-category">
-        <div class="skill-category-label">Backend & API</div>
-        <div class="skill-chips">
-          <span class="skill-chip">Django REST Framework</span>
-          <span class="skill-chip">Spring Boot</span>
-          <span class="skill-chip">JWT Auth</span>
-          <span class="skill-chip">REST APIs</span>
-          <span class="skill-chip">API Integration</span>
-        </div>
-      </div>
-
-      <div class="skill-category">
-        <div class="skill-category-label">Tools & Deployment</div>
-        <div class="skill-chips">
-          <span class="skill-chip">Vercel</span>
-          <span class="skill-chip">Netlify</span>
-          <span class="skill-chip">Git & GitHub</span>
-          <span class="skill-chip">Figma</span>
-          <span class="skill-chip">SVG Design</span>
-        </div>
-      </div>
-
-      <div class="skill-category">
-        <div class="skill-category-label">Product & Business</div>
-        <div class="skill-chips">
-          <span class="skill-chip">Investor Pitch Decks</span>
-          <span class="skill-chip">Go-to-Market Strategy</span>
-          <span class="skill-chip">SEO</span>
-          <span class="skill-chip">Product Hunt Launch</span>
-          <span class="skill-chip">Nigerian Fintech</span>
-          <span class="skill-chip">Tax Compliance (FIRS/VAT)</span>
-          <span class="skill-chip">Business Management</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- Timeline / Journey -->
-  <section id="timeline">
-    <p class="section-label">Journey</p>
-    <h2 class="section-title">How I got here.</h2>
-
-    <div class="timeline">
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year">2026 · Now</div>
-        <h3 class="timeline-title">Founder, Siro</h3>
-        <div class="timeline-sub">usesiro.com</div>
-        <p class="timeline-body">
-          Building Siro full-time — Nigerian tax compliance SaaS for SMEs. Shipped the full frontend, built the investor pitch deck, handled go-to-market strategy, and integrated the Nigeria Tax Act 2025 framework. Actively growing the product.
-        </p>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year">2025–2026</div>
-        <h3 class="timeline-title">Freelance Frontend Developer</h3>
-        <div class="timeline-sub">Various clients · Nigeria & Canada</div>
-        <p class="timeline-body">
-          Delivered production-grade web apps across legal tech (GrayPatch Solicitors), SaaS dashboards, event management systems, and a Web3 hackathon project (ShelbyDash on Aptos). Strong record of debugging complex API and integration issues.
-        </p>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year">2023 · Ongoing</div>
-        <h3 class="timeline-title">Business Management Student</h3>
-        <div class="timeline-sub">Miva Open University · 300 Level</div>
-        <p class="timeline-body">
-          Studying Business Management with a focus on applying frameworks to real-world product and market decisions. Served as course representative. Recipient of Cowrywise/Miva scholarship consideration.
-        </p>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- Contact -->
-  <section id="contact">
-    <div class="contact-inner reveal">
-      <p class="section-label">Contact</p>
-      <h2 class="section-title">Let's build something.</h2>
-      <p class="contact-sub">
-        Open to freelance projects, collaborations, and conversations about products that matter.
-      </p>
-      <a href="mailto:hello@marcus.dev" class="contact-email">hello@marcus.dev</a>
-
-      <div class="social-links">
-        <a href="https://usesiro.com" target="_blank" class="social-link">Siro</a>
-        <a href="https://github.com" target="_blank" class="social-link">GitHub</a>
-        <a href="https://linkedin.com" target="_blank" class="social-link">LinkedIn</a>
-        <a href="https://twitter.com" target="_blank" class="social-link">Twitter / X</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <span>© 2026 Marcus. All rights reserved.</span>
-    <span>Built with intention. Deployed on Vercel.</span>
-  </footer>
-
-  <script>
-    // ─── Cursor ───
-    const cursor = document.getElementById('cursor');
-    const cursorRing = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cursor.style.left = mx + 'px';
-      cursor.style.top = my + 'px';
-    });
-
-    function animateRing() {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      cursorRing.style.left = rx + 'px';
-      cursorRing.style.top = ry + 'px';
-      requestAnimationFrame(animateRing);
-    }
-    animateRing();
-
-    document.querySelectorAll('a, button, .skill-chip, .project-card').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'translate(-50%, -50%) scale(2.5)';
-        cursorRing.style.transform = 'translate(-50%, -50%) scale(1.4)';
-        cursorRing.style.borderColor = 'rgba(232,255,71,0.6)';
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-        cursorRing.style.transform = 'translate(-50%, -50%) scale(1)';
-        cursorRing.style.borderColor = 'rgba(232,255,71,0.4)';
-      });
-    });
-
-    // ─── Scroll reveal ───
-    const revealEls = document.querySelectorAll('.reveal, .timeline-item');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    revealEls.forEach(el => observer.observe(el));
-
-    // ─── Counter animation ───
-    const counters = document.querySelectorAll('.stat-num');
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const target = parseInt(el.getAttribute('data-target'));
-          const duration = 1400;
-          const start = performance.now();
-          const update = (now) => {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            el.textContent = Math.floor(eased * target);
-            if (progress < 1) requestAnimationFrame(update);
-            else el.textContent = target;
-          };
-          requestAnimationFrame(update);
-          counterObserver.unobserve(el);
-        }
-      });
-    }, { threshold: 0.5 });
-    counters.forEach(el => counterObserver.observe(el));
-  </script>
 
 </body>
 </html>
