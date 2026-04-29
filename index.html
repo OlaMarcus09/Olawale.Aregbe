@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marcus — Frontend Developer & Founder</title>
+  <meta name="description" content="Marcus is a Frontend Developer and Founder building Workspace Africa and Siro. He crafts clean digital products and ships fast." />
+  <meta property="og:title" content="Marcus — Frontend Developer & Founder" />
+  <meta property="og:description" content="Building Workspace Africa. Writing clean code. Shipping real products." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg-2: #111111;
+      --bg-3: #1a1a1a;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.15);
+      --text: #f0f0f0;
+      --text-2: #888;
+      --text-3: #555;
+      --accent: #e8ff47;
+      --accent-dim: rgba(232,255,71,0.12);
+      --accent-glow: rgba(232,255,71,0.25);
+      --radius: 2px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      transform: translate(-50%, -50%);
+    }
+    .cursor-ring {
+      width: 32px; height: 32px;
+      border: 1px solid rgba(232,255,71,0.4);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.2s;
+      transform: translate(-50%, -50%);
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 24px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, transparent 100%);
+      backdrop-filter: blur(4px);
+    }
+    .nav-logo {
+      font-family: 'Geist Mono', monospace;
+      font-size: 13px;
+      color: var(--text-2);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: 'Geist Mono', monospace;
+      font-size: 12px;
+      color: var(--text-2);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 120px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid-line {
+      position: absolute;
+      background: var(--border);
+      pointer-events: none;
+    }
+    .hero-grid-line.v { width: 1px; top: 0; bottom: 0; }
+    .hero-grid-line.h { height: 1px; left: 0; right: 0; }
+
+    .hero-status {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-2);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s ease forwards;
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero-name {
+      font-size: clamp(56px, 10vw, 120px);
+      font-weight: 800;
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s ease forwards;
+    }
+    .hero-name .accent { color: var(--accent); }
+
+    .hero-tagline {
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 400;
+      color: var(--text-2);
+      max-width: 560px;
+      margin-bottom: 56px;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.5s ease forwards;
+    }
+
+    .hero-ctas {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.65s ease forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: var(--radius);
+      transition: all 0.2s;
+      cursor: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0a0a;
+      font-weight: 600;
+    }
+    .btn-primary:hover {
+      background: #fff;
+      box-shadow: 0 0 32px var(--accent-glow);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-2);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: var(--border-hover);
+      color: var(--text);
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 36px; right: 48px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--text-3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      opacity: 0;
+      animation: fadeIn 1s 1.2s ease forwards;
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 100px 48px; }
+    .section-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 0;
+    }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--bg); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      margin-top: 60px;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--text-2);
+      font-size: 17px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .about-text p strong { color: var(--text); font-weight: 600; }
+    .about-text p .hl { color: var(--accent); }
+
+    .about-facts { display: flex; flex-direction: column; gap: 0; }
+    .fact-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .fact-row:first-child { border-top: 1px solid var(--border); }
+    .fact-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-3);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .fact-value {
+      font-size: 14px;
+      color: var(--text-2);
+      text-align: right;
+    }
+    .fact-value.accent { color: var(--accent); }
+
+    /* ─── STATS ─── */
+    .stats-bar {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 0 24px;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-desc {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ─── PROJECTS ─── */
+    #projects { background: var(--bg); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 60px;
+    }
+    .project-card {
+      background: var(--bg-2);
+      padding: 40px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, background 0.3s;
+      cursor: none;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent-dim) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .project-card:hover { border-color: var(--border-hover); }
+    .project-card:hover::before { opacity: 1; }
+    .project-card.featured {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .project-tag {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .project-tag::before {
+      content: '';
+      width: 16px; height: 1px;
+      background: var(--accent);
+    }
+
+    .project-name {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .project-desc {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .project-stack {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 28px;
+    }
+    .stack-chip {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      padding: 4px 10px;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      color: var(--text-3);
+      letter-spacing: 0.06em;
+      border-radius: 2px;
+    }
+    .project-link {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-2);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--accent); }
+    .project-link svg { transition: transform 0.2s; }
+    .project-link:hover svg { transform: translate(2px, -2px); }
+
+    .featured-visual {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      height: 240px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .featured-visual-inner {
+      font-family: 'Geist Mono', monospace;
+      font-size: 64px;
+      font-weight: 300;
+      color: var(--border-hover);
+      letter-spacing: -0.04em;
+      position: relative;
+      z-index: 1;
+    }
+    .featured-visual::before {
+      content: '';
+      position: absolute;
+      width: 200px; height: 200px;
+      background: var(--accent-glow);
+      border-radius: 50%;
+      filter: blur(60px);
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-16px); }
+    }
+
+    /* ─── SKILLS ─── */
+    #skills { background: var(--bg-2); }
+    .skills-wrapper { margin-top: 60px; }
+    .skill-category { margin-bottom: 48px; }
+    .skill-category-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--text-3);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .skill-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .skill-chip {
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-family: 'Geist Mono', monospace;
+      font-size: 12px;
+      color: var(--text-2);
+      letter-spacing: 0.04em;
+      border-radius: 2px;
+      transition: all 0.2s;
+      cursor: none;
+    }
+    .skill-chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* ─── TIMELINE ─── */
+    #timeline { background: var(--bg); }
+    .timeline { margin-top: 60px; position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .timeline-item {
+      padding: 0 0 48px 40px;
+      position: relative;
+      opacity: 0;
+      transform: translateX(-12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -4px; top: 6px;
+      width: 8px; height: 8px;
+      background: var(--bg);
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+    }
+    .timeline-year {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      margin-bottom: 8px;
+    }
+    .timeline-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .timeline-sub {
+      font-size: 13px;
+      color: var(--text-3);
+      margin-bottom: 10px;
+    }
+    .timeline-body {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      background: var(--bg-2);
+      text-align: center;
+    }
+    .contact-inner { max-width: 640px; margin: 0 auto; }
+    .contact-inner .section-label { justify-content: center; display: flex; }
+    .contact-email {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+      display: block;
+      margin: 32px 0 20px;
+      transition: color 0.2s;
+    }
+    .contact-email:hover { color: var(--accent); }
+    .contact-sub {
+      font-size: 14px;
+      color: var(--text-3);
+      margin-bottom: 48px;
+    }
+    .social-links {
+      display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
+    }
+    .social-link {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-3);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      cursor: none;
+    }
+    .social-link:hover { color: var(--accent); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 24px 48px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    footer span {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-3);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── MARQUEE ─── */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+      background: var(--bg-2);
+    }
+    .marquee-track {
+      display: flex; gap: 48px;
+      animation: marquee 18s linear infinite;
+      width: max-content;
+    }
+    .marquee-item {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--text-3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      display: flex; align-items: center; gap: 48px;
+    }
+    .marquee-item::after {
+      content: '·';
+      color: var(--accent);
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      #hero { padding: 100px 24px 60px; }
+      section { padding: 72px 24px; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .stats-bar { grid-template-columns: 1fr 1fr; gap: 32px; padding: 32px 24px; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+      .stat-item:nth-child(2), .stat-item:last-child { border-bottom: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+      .featured-visual { height: 160px; }
+      footer { flex-direction: column; gap: 8px; padding: 24px; text-align: center; }
+      body { cursor: auto; }
+      .cursor, .cursor-ring { display: none; }
+    }
+
+    /* ─── REDUCED MOTION ─── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      body { cursor: auto; }
+      .cursor, .cursor-ring { display: none; }
+      .hero-status, .hero-name, .hero-tagline, .hero-ctas, .hero-scroll-hint {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <a href="#hero" class="nav-logo">Marcus<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#timeline">Journey</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section id="hero">
+    <div class="hero-grid-line v" style="left: 33.3%"></div>
+    <div class="hero-grid-line v" style="left: 66.6%"></div>
+    <div class="hero-grid-line h" style="top: 40%"></div>
+
+    <div class="hero-status">
+      <div class="status-dot"></div>
+      Available for select projects
+    </div>
+
+    <h1 class="hero-name">
+      Frontend<br />
+      Dev<span class="accent">.</span><br />
+      Founder<span class="accent">.</span>
+    </h1>
+
+    <p class="hero-tagline">
+      I build clean, fast digital products that solve real problems — and ship them.
+      My flagship project is <strong>Workspace Africa</strong>. I'm also building <strong>Siro</strong>, a tax compliance SaaS for Nigerian SMEs.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#projects" class="btn btn-primary">View Work</a>
+      <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+    </div>
+
+    <div class="hero-scroll-hint">Scroll to explore</div>
+  </section>
+
+  <!-- ─── MARQUEE ─── -->
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="marquee">
+      <div class="marquee-item">Workspace Africa</div>
+      <div class="marquee-item">Next.js</div>
+      <div class="marquee-item">React</div>
+      <div class="marquee-item">Tailwind CSS</div>
+      <div class="marquee-item">Siro</div>
+      <div class="marquee-item">GrayPatch Solicitors</div>
+      <div class="marquee-item">Spring Boot</div>
+      <div class="marquee-item">Django REST</div>
+      <div class="marquee-item">Aptos</div>
+      <div class="marquee-item">TypeScript</div>
+      <div class="marquee-item">Figma</div>
+      <div class="marquee-item">Node.js</div>
+      <!-- duplicate for seamless loop -->
+      <div class="marquee-item">Workspace Africa</div>
+      <div class="marquee-item">Next.js</div>
+      <div class="marquee-item">React</div>
+      <div class="marquee-item">Tailwind CSS</div>
+      <div class="marquee-item">Siro</div>
+      <div class="marquee-item">GrayPatch Solicitors</div>
+      <div class="marquee-item">Spring Boot</div>
+      <div class="marquee-item">Django REST</div>
+      <div class="marquee-item">Aptos</div>
+      <div class="marquee-item">TypeScript</div>
+      <div class="marquee-item">Figma</div>
+      <div class="marquee-item">Node.js</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ─── ABOUT ─── -->
+  <section id="about">
+    <div class="section-label reveal">01 — About</div>
+    <h2 class="section-title reveal">I build things<br />that matter.</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          I'm <strong>Olawale Marcus Aregbe</strong> — a self-driven frontend developer and founder based in Nigeria.
+          I care deeply about <span class="hl">clean interfaces</span>, fast performance, and products that actually solve problems.
+        </p>
+        <p>
+          My flagship build is <strong>Workspace Africa</strong> — a platform designed to connect African professionals
+          with flexible, modern coworking spaces across the continent. I also founded <strong>Siro</strong>, a tax
+          compliance SaaS built specifically for Nigerian SMEs navigating FIRS regulations.
+        </p>
+        <p>
+          Beyond products, I've shipped client work across legal tech, blockchain, and enterprise
+          software — from <strong>GrayPatch Solicitors</strong> to an <strong>Aptos blockchain</strong> explorer.
+          I write code the way I think: clear, deliberate, and without unnecessary noise.
+        </p>
+      </div>
+      <div class="about-facts reveal">
+        <div class="fact-row">
+          <span class="fact-label">Location</span>
+          <span class="fact-value">Lagos, Nigeria</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Focus</span>
+          <span class="fact-value">Frontend · Product</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Currently building</span>
+          <span class="fact-value accent">Workspace Africa + Siro</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Open to</span>
+          <span class="fact-value">Freelance · Collab</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Stack preference</span>
+          <span class="fact-value">Next.js · Tailwind · TS</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Status</span>
+          <span class="fact-value accent">Available</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── STATS ─── -->
+  <div class="stats-bar">
+    <div class="stat-item reveal">
+      <div class="stat-num">3+</div>
+      <div class="stat-desc">Years building</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">12+</div>
+      <div class="stat-desc">Projects shipped</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">2</div>
+      <div class="stat-desc">Startups founded</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">∞</div>
+      <div class="stat-desc">Lines of intent</div>
+    </div>
+  </div>
+
+  <!-- ─── PROJECTS ─── -->
+  <section id="projects">
+    <div class="section-label reveal">02 — Projects</div>
+    <h2 class="section-title reveal">Selected work.</h2>
+
+    <div class="projects-grid">
+
+      <!-- Featured: Workspace Africa -->
+      <div class="project-card featured reveal">
+        <div>
+          <div class="project-tag">Flagship · SaaS</div>
+          <h3 class="project-name">Workspace Africa</h3>
+          <p class="project-desc">
+            A platform connecting African professionals to flexible coworking spaces.
+            Book desks, meeting rooms, and private offices across major African cities — 
+            with real-time availability, seamless payments, and a beautiful booking experience.
+          </p>
+          <div class="project-stack">
+            <span class="stack-chip">Next.js</span>
+            <span class="stack-chip">TypeScript</span>
+            <span class="stack-chip">Tailwind CSS</span>
+            <span class="stack-chip">Prisma</span>
+            <span class="stack-chip">PostgreSQL</span>
+            <span class="stack-chip">Stripe</span>
+          </div>
+          <a href="#contact" class="project-link">
+            Learn more
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+        <div class="featured-visual">
+          <span class="featured-visual-inner">WA</span>
+        </div>
+      </div>
+
+      <!-- Siro -->
+      <div class="project-card reveal">
+        <div class="project-tag">SaaS · Fintech</div>
+        <h3 class="project-name">Siro</h3>
+        <p class="project-desc">
+          Tax compliance SaaS for Nigerian SMEs. Automates FIRS filings, tracks tax obligations,
+          and provides audit-ready reports — so founders can focus on building, not paperwork.
+        </p>
+        <div class="project-stack">
+          <span class="stack-chip">React</span>
+          <span class="stack-chip">Django REST</span>
+          <span class="stack-chip">Python</span>
+          <span class="stack-chip">PostgreSQL</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Learn more
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- GrayPatch Solicitors -->
+      <div class="project-card reveal">
+        <div class="project-tag">Client · Legal Tech</div>
+        <h3 class="project-name">GrayPatch Solicitors</h3>
+        <p class="project-desc">
+          Modern web presence for a Nigerian law firm. Clean, professional design with
+          practice area showcase, attorney profiles, and secure client inquiry forms.
+        </p>
+        <div class="project-stack">
+          <span class="stack-chip">Next.js</span>
+          <span class="stack-chip">Tailwind CSS</span>
+          <span class="stack-chip">Framer Motion</span>
+        </div>
+        <a href="#contact" class="project-link">
+          View project
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Aptos Explorer -->
+      <div class="project-card reveal">
+        <div class="project-tag">Blockchain · Explorer</div>
+        <h3 class="project-name">Aptos Explorer</h3>
+        <p class="project-desc">
+          A clean, real-time blockchain explorer for the Aptos network. Visualizes transactions,
+          accounts, and smart contract events with sub-second data refresh.
+        </p>
+        <div class="project-stack">
+          <span class="stack-chip">React</span>
+          <span class="stack-chip">TypeScript</span>
+          <span class="stack-chip">Aptos SDK</span>
+          <span class="stack-chip">Spring Boot</span>
+        </div>
+        <a href="#contact" class="project-link">
+          View project
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── SKILLS ─── -->
+  <section id="skills">
+    <div class="section-label reveal">03 — Skills</div>
+    <h2 class="section-title reveal">Tools of the trade.</h2>
+
+    <div class="skills-wrapper">
+      <div class="skill-category reveal">
+        <div class="skill-category-label">Frontend</div>
+        <div class="skill-chips">
+          <span class="skill-chip">React</span>
+          <span class="skill-chip">Next.js</span>
+          <span class="skill-chip">TypeScript</span>
+          <span class="skill-chip">Tailwind CSS</span>
+          <span class="skill-chip">Framer Motion</span>
+          <span class="skill-chip">HTML5</span>
+          <span class="skill-chip">CSS3</span>
+          <span class="skill-chip">Zustand</span>
+          <span class="skill-chip">React Query</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-category-label">Backend & APIs</div>
+        <div class="skill-chips">
+          <span class="skill-chip">Node.js</span>
+          <span class="skill-chip">Django REST</span>
+          <span class="skill-chip">Spring Boot</span>
+          <span class="skill-chip">PostgreSQL</span>
+          <span class="skill-chip">Prisma</span>
+          <span class="skill-chip">REST APIs</span>
+          <span class="skill-chip">GraphQL</span>
+          <span class="skill-chip">Redis</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-category-label">Tools & Workflow</div>
+        <div class="skill-chips">
+          <span class="skill-chip">Figma</span>
+          <span class="skill-chip">Git</span>
+          <span class="skill-chip">GitHub Actions</span>
+          <span class="skill-chip">Vercel</span>
+          <span class="skill-chip">Docker</span>
+          <span class="skill-chip">Stripe</span>
+          <span class="skill-chip">Supabase</span>
+          <span class="skill-chip">Linux</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TIMELINE ─── -->
+  <section id="timeline">
+    <div class="section-label reveal">04 — Journey</div>
+    <h2 class="section-title reveal">How I got here.</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2024 — Present</div>
+        <div class="timeline-title">Founder — Workspace Africa</div>
+        <div class="timeline-sub">Lagos, Nigeria · Full-time</div>
+        <div class="timeline-body">
+          Leading product design and development for Workspace Africa — building the infrastructure
+          to connect African professionals with flexible coworking spaces across the continent.
+          Handling everything from architecture decisions to UI polish.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2023 — Present</div>
+        <div class="timeline-title">Founder — Siro</div>
+        <div class="timeline-sub">Lagos, Nigeria · Part-time</div>
+        <div class="timeline-body">
+          Conceived and began building Siro — a tax compliance SaaS for Nigerian SMEs.
+          Conducting user research, building the Django REST backend, and designing the
+          compliance workflow engine for FIRS filings.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2022 — 2023</div>
+        <div class="timeline-title">Freelance Frontend Developer</div>
+        <div class="timeline-sub">Remote</div>
+        <div class="timeline-body">
+          Shipped client projects including the GrayPatch Solicitors website and an Aptos
+          blockchain explorer. Developed a reputation for clean code, fast delivery, and
+          pixel-perfect implementation of designs.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2021</div>
+        <div class="timeline-title">Started coding seriously</div>
+        <div class="timeline-sub">Self-taught</div>
+        <div class="timeline-body">
+          Committed fully to frontend development. Learned React, built personal projects,
+          and began contributing to open source. Fell in love with the intersection of
+          design and engineering.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ─── -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="section-label reveal">05 — Contact</div>
+      <h2 class="section-title reveal">Let's build something.</h2>
+      <a href="mailto:hello@marcusaregbe.dev" class="contact-email reveal">
+        hello@marcusaregbe.dev
+      </a>
+      <p class="contact-sub reveal">
+        Open to freelance projects, collabs, and interesting conversations.
+      </p>
+      <div class="social-links reveal">
+        <a href="https://twitter.com/marcusaregbe" class="social-link" target="_blank" rel="noopener noreferrer">Twitter</a>
+        <a href="https://github.com/OlaMarcus09" class="social-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://linkedin.com/in/marcusaregbe" class="social-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <span>© 2024 Olawale Marcus Aregbe</span>
+    <span>Built with intent.</span>
+  </footer>
+
+  <script>
+    // ─── Custom cursor ───
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursorRing');
+    let mouseX = 0, mouseY = 0;
+    let ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top = mouseY + 'px';
+    });
+
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button, .skill-chip, .project-card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(2.5)';
+        cursorRing.style.transform = 'translate(-50%, -50%) scale(1.4)';
+        cursorRing.style.borderColor = 'rgba(232,255,71,0.8)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorRing.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorRing.style.borderColor = 'rgba(232,255,71,0.4)';
+      });
+    });
+
+    // ─── Scroll reveal ───
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ─── Timeline reveal ───
+    const timelineObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, 100);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.timeline-item').forEach(el => timelineObserver.observe(el));
+  </script>
+</body>
+</html>
