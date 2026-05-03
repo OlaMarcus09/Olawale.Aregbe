@@ -339,9 +339,40 @@
     .project-card.featured {
       grid-column: span 2;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1.2fr;
       gap: 40px;
       align-items: center;
+    }
+
+    /* Project Images CSS */
+    .project-visual {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      height: 200px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .featured-visual {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      height: 320px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-visual img, .featured-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .project-card:hover .project-visual img, 
+    .project-card:hover .featured-visual img {
+      transform: scale(1.04);
     }
 
     .project-tag {
@@ -399,38 +430,6 @@
     .project-link:hover { color: var(--accent); }
     .project-link svg { transition: transform 0.2s; }
     .project-link:hover svg { transform: translate(2px, -2px); }
-
-    .featured-visual {
-      background: var(--bg-3);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      height: 240px;
-      display: flex; align-items: center; justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .featured-visual-inner {
-      font-family: 'Geist Mono', monospace;
-      font-size: 64px;
-      font-weight: 300;
-      color: var(--border-hover);
-      letter-spacing: -0.04em;
-      position: relative;
-      z-index: 1;
-    }
-    .featured-visual::before {
-      content: '';
-      position: absolute;
-      width: 200px; height: 200px;
-      background: var(--accent-glow);
-      border-radius: 50%;
-      filter: blur(60px);
-      animation: float 4s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-16px); }
-    }
 
     /* ─── SKILLS ─── */
     #skills { background: var(--bg-2); }
@@ -625,21 +624,19 @@
       section { padding: 72px 24px; }
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
       
-      /* 2x2 Stats grid for tablets */
       .stats-bar { grid-template-columns: 1fr 1fr; gap: 32px; padding: 32px 24px; }
       .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
       .stat-item:nth-last-child(-n+2) { border-bottom: none; } 
       
       .projects-grid { grid-template-columns: 1fr; }
       .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; gap: 24px;}
-      .featured-visual { height: 160px; }
+      .featured-visual { height: 200px; }
       footer { flex-direction: column; gap: 8px; padding: 24px; text-align: center; }
       body { cursor: auto; }
       .cursor, .cursor-ring { display: none; }
       .hero-scroll-hint { display: none; } 
     }
 
-    /* Extra small screens (Phones) */
     @media (max-width: 600px) {
       .hero-name { font-size: clamp(40px, 12vw, 56px); } 
       .hero-tagline { font-size: 16px; margin-bottom: 40px; }
@@ -804,6 +801,7 @@
 
     <div class="projects-grid">
 
+      <!-- Workspace Africa -->
       <div class="project-card featured reveal">
         <div class="project-info">
           <div class="project-tag">Flagship · Founder</div>
@@ -825,11 +823,15 @@
           </a>
         </div>
         <div class="featured-visual">
-          <div class="featured-visual-inner">W</div>
+          <img src="images/workspace-africa.jpg" alt="Workspace Africa Platform" />
         </div>
       </div>
 
+      <!-- Siro -->
       <div class="project-card reveal">
+        <div class="project-visual">
+          <img src="images/siro.jpg" alt="Siro Dashboard" />
+        </div>
         <div class="project-tag">Fintech · FrontEnd</div>
         <h3 class="project-name">Siro</h3>
         <p class="project-desc">
@@ -840,7 +842,7 @@
           <span class="stack-chip">Tailwind CSS</span>
           <span class="stack-chip">Nigeria Tax Act 2025</span>
         </div>
-        <a href="https://usesiro.vercel.app" target="_blank" class="project-link">
+        <a href="https://usesiro.com" target="_blank" class="project-link">
           Visit Siro
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -848,7 +850,11 @@
         </a>
       </div>
 
+      <!-- GrayPatch -->
       <div class="project-card reveal">
+        <div class="project-visual">
+          <img src="images/graypatch.jpg" alt="GrayPatch Solicitors Website" />
+        </div>
         <div class="project-tag">Legal Tech</div>
         <h3 class="project-name">GrayPatch Solicitors</h3>
         <p class="project-desc">
@@ -868,7 +874,11 @@
         </a>
       </div>
 
+      <!-- NextGen Expo -->
       <div class="project-card reveal">
+        <div class="project-visual">
+          <img src="images/nextgen.jpg" alt="The NextGen Expo Platform" />
+        </div>
         <div class="project-tag">Events · Education</div>
         <h3 class="project-name">The NextGen Expo</h3>
         <p class="project-desc">
@@ -888,7 +898,11 @@
         </a>
       </div>
 
+      <!-- Mercy & Ayodeji -->
       <div class="project-card reveal">
+        <div class="project-visual">
+          <img src="images/mvlovewave.jpg" alt="The MV Lovewave Wedding Site" />
+        </div>
         <div class="project-tag">Creative · Wedding Tech</div>
         <h3 class="project-name">The MV Lovewave</h3>
         <p class="project-desc">
@@ -908,18 +922,27 @@
         </a>
       </div>
 
+      <!-- HR Mentorship -->
       <div class="project-card reveal">
-        <div class="project-tag">Web3 · Hackathon</div>
-        <h3 class="project-name">ShelbyDash</h3>
+        <div class="project-visual">
+          <img src="images/hr-mentorship.jpg" alt="HR Mentorship Platform" />
+        </div>
+        <div class="project-tag">EdTech · Community</div>
+        <h3 class="project-name">HR Mentorship</h3>
         <p class="project-desc">
-          Verifiable decentralized storage dashboard for the Aptos Shelby Protocol hackathon. Full technical documentation covering React/Node.js architecture, Shelby SDK integration, and a complete API reference.
+          A complete digital matching platform and community hub trusted by over 7,000+ professionals. Designed to be the place where HR careers grow, leaders emerge, and community thrives, scaling from entry-level to senior leadership.
         </p>
         <div class="project-stack">
+          <span class="stack-chip">Next.js</span>
           <span class="stack-chip">React</span>
-          <span class="stack-chip">Node.js</span>
-          <span class="stack-chip">Aptos</span>
-          <span class="stack-chip">Shelby SDK</span>
+          <span class="stack-chip">Tailwind CSS</span>
         </div>
+        <a href="https://www.hrmentorship.org/" target="_blank" class="project-link">
+          View Live
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
       </div>
 
     </div>
@@ -1009,7 +1032,7 @@
         <h3 class="timeline-title">Freelance Frontend Developer</h3>
         <div class="timeline-sub">Various clients · Nigeria & Canada</div>
         <p class="timeline-body">
-          Delivered production-grade web apps across legal tech (GrayPatch Solicitors), SaaS dashboards, event management systems, and a Web3 hackathon project (ShelbyDash on Aptos). Strong record of debugging complex API and integration issues.
+          Delivered production-grade web apps across community platforms (HR Mentorship), legal tech (GrayPatch Solicitors), SaaS dashboards, and event management systems. Strong record of debugging complex API and integration issues.
         </p>
       </div>
 
