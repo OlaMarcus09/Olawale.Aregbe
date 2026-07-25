@@ -1,0 +1,4 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='800' height='500'>
+<rect width='800' height='500' fill='#1a1a1a'/>
+<text x='400' y='260' font-family='sans-serif' font-size='42' fill='#e8ff47' text-anchor='middle'>Compound</text>
+</svg>
